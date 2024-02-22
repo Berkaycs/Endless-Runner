@@ -7,6 +7,7 @@ public class GroundPooling : MonoBehaviour
     [SerializeField] private GameObject groundPrefab; // assigning a prefab
     [SerializeField] private int poolSize = 10; // define the total size
 
+    private List<GameObject> spawnedGroundTiles = new List<GameObject>();
 
     public int startSize = 2;
 
@@ -19,9 +20,12 @@ public class GroundPooling : MonoBehaviour
 
         for (int i = 0; i < poolSize; i++)
         {
-            GameObject ground = Instantiate(groundPrefab);
-            ground.SetActive(false);
-            pooledGrounds.Enqueue(ground);
+            if (groundPrefab != null)
+            {
+                GameObject ground = Instantiate(groundPrefab);
+                ground.SetActive(false);
+                pooledGrounds.Enqueue(ground);
+            }
         }
     }
 
@@ -38,13 +42,19 @@ public class GroundPooling : MonoBehaviour
     }
 
     // Returning the objects when it is needed
-    public GameObject GetPooledObject()
+    public GameObject GetGroundFromPool()
     {
         GameObject ground = pooledGrounds.Dequeue();
         ground.transform.position = nextSpawnPoint; // Update ground position
         nextSpawnPoint = ground.transform.GetChild(1).transform.position; // Update nextSpawnPoint
         ground.SetActive(true);
         pooledGrounds.Enqueue(ground);
+        spawnedGroundTiles.Add(ground);
         return ground;
+    }
+
+    public int GetSpawnedTilesCount()
+    {
+        return spawnedGroundTiles.Count;
     }
 }
