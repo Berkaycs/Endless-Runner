@@ -8,17 +8,23 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] TextMeshProUGUI highScoreText;
+    [SerializeField] TextMeshProUGUI countdownText;
     [SerializeField] GameObject newHighScoreText;
     [SerializeField] GameObject gameOverPanel;
+    [SerializeField] GameObject countdownPanel;
+    [SerializeField] PlayerMovement player;
+    [SerializeField] Animator animator;
 
     public int score;
     private int highScore;
+    public int respawnCounter = 3;
     public bool isGameOver = false;
 
     private void Awake()
     {
         Instance = this;
         gameOverPanel.SetActive(false);
+        countdownPanel.SetActive(false);
     }
 
     void Start()
@@ -33,14 +39,32 @@ public class GameManager : MonoBehaviour
 
     IEnumerator IncreaseScore()
     {
-        while (!isGameOver)
+        while (!isGameOver && player.isAlive == true)
         {
             yield return new WaitForSeconds(1f);
             score++;
             scoreText.text = "SCORE: " + score.ToString();
         }
     }
+    
+    public IEnumerator RespawnCounter()
+    {
+        countdownPanel.SetActive(true);
+        player.isAlive = false;
 
+        while (respawnCounter > 0)
+        {
+            countdownText.text = respawnCounter.ToString();
+            respawnCounter--;
+            yield return new WaitForSeconds(1f);
+        }
+
+        countdownPanel.SetActive(false);
+        respawnCounter = 3;
+        player.isAlive = true;
+        animator.SetBool("IsDead", false);
+    }
+    
     public void GameOver()
     {
         gameOverPanel.SetActive(true);

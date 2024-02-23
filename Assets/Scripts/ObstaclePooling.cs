@@ -29,6 +29,4 @@ public class ObstaclePooling : MonoBehaviour
             }
         }
     }
-
-    // POOLA BÝRDEN ÇOK ENGEL KOY 2LÝ YA DA ÜCLÜ VE BÝR SPAWN NOKTASI OLSUN DÜSÜN 
 }

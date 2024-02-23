@@ -22,7 +22,7 @@ public class GroundTile : MonoBehaviour
 
     private void Start()
     {
-        if (groundPooling.GetSpawnedTilesCount() > 3)
+        if (groundPooling.GetSpawnedTilesCount() > 2)
         {
             canSpawnObstacle = true;
             canSpawnCoin = true;
@@ -84,12 +84,6 @@ public class GroundTile : MonoBehaviour
         int coinTypeGenerator = Random.Range(0, 2); // choosing to spawn silver or gold coin from the pool
         int coinSpawnIndex;
         int spawnCoinNumber;
-
-        if (activeObstacles.Count > 0)
-        {
-            Debug.Log("An obstacle is already active. Cannot spawn another one.");
-            return;
-        }
 
         switch (spawnCoinPointNumber)
         {

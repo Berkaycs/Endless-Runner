@@ -1,12 +1,16 @@
+using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private const string IS_SLIP = "IsSlip";
+    //private const string IS_IDLE = "IsIdle";
+    private const string IS_SLIP = "IsSlipping";
     private const string IS_DEAD = "IsDead";
-    private const string IS_RUNNING = "StartRunAnim";
-    private const string IS_RESPAWNING = "IsRespawn";
+    private const string IS_RUNNING = "IsRunning";
+    //private const string IS_RESPAWNING = "IsRespawning";
 
+    [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private Animator animator;
     [SerializeField] private Transform respawnPoint;
     //private Renderer playerRenderer;
@@ -24,16 +28,12 @@ public class PlayerMovement : MonoBehaviour
 
     public float gravityModifier;
 
-    public float respawnDelay = 3f;
-    public float blinkInterval = 0.5f;
-    public Color blinkColor = Color.white;
-
-    public float numberOfDeaths = 0;
+    public int health;
+    public int showHealth;
 
     public bool isOnGround = true;
     public bool doubleJump = false;
     public bool isAlive = true;
-    public bool canDie = true;
 
     void Awake()
     {
@@ -44,6 +44,9 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         Physics.gravity *= gravityModifier;
+        health = 2;
+        showHealth = health + 1;
+        healthText.text = "HEALTH: " + showHealth.ToString();
     }
 
     void Update()
@@ -110,7 +113,7 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetBool(IS_SLIP, true);
         }
-
+        
         else
         {
             animator.SetBool(IS_SLIP, false);
@@ -129,7 +132,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            animator.SetBool(IS_RUNNING, true);
             isOnGround = true;
             doubleJump = false;
         }
@@ -137,29 +139,31 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Obstacle"))
         {
             isAlive = false;
+            showHealth--;
+            animator.SetBool(IS_DEAD, true);
 
-            if (numberOfDeaths < 3)
+            if (health == 0)
             {
-                numberOfDeaths++;
-                animator.SetBool(IS_DEAD, true);
-                Respawn();
-            }
-
-            if (numberOfDeaths > 3)
-            {
+                healthText.text = "HEALTH: " + showHealth.ToString();
                 GameManager.Instance.isGameOver = true;
                 GameManager.Instance.GameOver();
             }
+
+            else if (health > 0)
+            {
+                transform.position = respawnPoint.transform.position;
+                health--;
+                healthText.text = "HEALTH: " + showHealth.ToString();
+                Respawn();
+            }
         }
     }
-
+    
     private void Respawn()
     {
-        transform.position = respawnPoint.transform.position;
-        animator.SetBool(IS_RESPAWNING, true); 
-        isAlive = true;
-        animator.SetBool(IS_RUNNING, true);
+        GameManager.Instance.StartCoroutine(GameManager.Instance.RespawnCounter()); 
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
