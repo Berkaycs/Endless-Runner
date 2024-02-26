@@ -4,54 +4,49 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    //private const string IS_IDLE = "IsIdle";
-    private const string IS_SLIP = "IsSlipping";
-    private const string IS_DEAD = "IsDead";
-    private const string IS_RUNNING = "IsRunning";
-    //private const string IS_RESPAWNING = "IsRespawning";
+    private const string IsLeaning = "IsLeaning";
+    private const string IsDead = "IsDead";
+    private const string IsRunning = "IsRunning";
 
-    [SerializeField] private TextMeshProUGUI healthText;
-    [SerializeField] private Animator animator;
-    [SerializeField] private Transform respawnPoint;
-    //private Renderer playerRenderer;
-    private Rigidbody rb;
+    [SerializeField] private TextMeshProUGUI _healthText;
+    [SerializeField] private Animator _animator;
+    [SerializeField] private Transform _respawnPoint;
+    private Rigidbody _rb;
 
-    public float forwardSpeed = 50;
-    public float sideSpeed = 10;
-    public float maxSpeed;
+    private float _forwardSpeed = 70;
+    private float _sideSpeed = 100;
+    private float _maxSpeed = 125;
 
-    public float middleRight = 13.5f;
-    public float middleLeft = -13.5f;
+    private float _middleRight = 13.5f;
+    private float _middleLeft = -13.5f;
 
-    public float jumpForce = 20;
-    public float doubleJumpForce = 20;
+    private float _jumpForce = 70;
+    private float _doubleJumpForce = 50;
 
-    public float gravityModifier;
+    private float _gravityModifier = 2f;
 
-    public int health;
-    public int showHealth;
+    private int _health;
 
-    public bool isOnGround = true;
-    public bool doubleJump = false;
-    public bool isAlive = true;
+    private bool _isOnGround = true;
+    private bool _canDoubleJump = false;
+
+    public bool IsAlive = true;
 
     void Awake()
     {
-        rb = GetComponent<Rigidbody>();
-        //playerRenderer = GetComponentInChildren<Renderer>();
+        _rb = GetComponent<Rigidbody>();
     }
 
     private void Start()
     {
-        Physics.gravity *= gravityModifier;
-        health = 2;
-        showHealth = health + 1;
-        healthText.text = "HEALTH: " + showHealth.ToString();
+        Physics.gravity *= _gravityModifier;
+        _health = 3;
+        _healthText.text = "HEALTH: " + _health.ToString();
     }
 
     void Update()
     {
-        if (!isAlive)
+        if (!IsAlive)
         {
             return;
         }
@@ -59,26 +54,24 @@ public class PlayerMovement : MonoBehaviour
         IncreaseSpeedBySeconds();
         HandleMovement();
         Jump();
-        Slip();
+        Lean();
     }
 
     void HandleMovement()
     {
-        transform.Translate(0, 0, forwardSpeed * Time.deltaTime);
+        transform.Translate(0, 0, _forwardSpeed * Time.deltaTime);
 
-        Vector3 toLeft = new Vector3(middleLeft, transform.position.y, transform.position.z);
-        Vector3 toRight = new Vector3(middleRight, transform.position.y, transform.position.z);
+        Vector3 toLeft = new Vector3(_middleLeft, transform.position.y, transform.position.z);
+        Vector3 toRight = new Vector3(_middleRight, transform.position.y, transform.position.z);
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
-            Debug.Log("lerping to left");
-            transform.position = Vector3.Lerp(transform.position, toLeft, sideSpeed * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, toLeft, _sideSpeed * Time.deltaTime);
         }
 
-        else if (Input.GetKey(KeyCode.A))
+        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
-            Debug.Log("lerping to right");
-            transform.position = Vector3.Lerp(transform.position, toRight, sideSpeed * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, toRight, _sideSpeed * Time.deltaTime);
         }
 
         else
@@ -89,42 +82,43 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        if (isOnGround && Input.GetKeyDown(KeyCode.Space))
+        if (_isOnGround && Input.GetKeyDown(KeyCode.Space))
         {
-            animator.SetBool(IS_RUNNING, false);
+            _animator.SetBool(IsRunning, false);
             Debug.Log("First jump");
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            isOnGround = false;
-            doubleJump = true;
+            _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+            _isOnGround = false;
+            _canDoubleJump = true;
         }
 
-        else if (!isOnGround && doubleJump && Input.GetKeyDown(KeyCode.Space))
+        else if (!_isOnGround && _canDoubleJump && Input.GetKeyDown(KeyCode.Space))
         {
-            animator.SetBool(IS_RUNNING, false);
-            doubleJump = false;
+            _animator.SetBool(IsRunning, false);
+            _canDoubleJump = false;
             Debug.Log("Second jump");
-            rb.AddForce(Vector3.up * doubleJumpForce, ForceMode.Impulse);
+            _rb.velocity = new Vector3(_rb.velocity.x, 0f, _rb.velocity.z);
+            _rb.AddForce(Vector3.up * _doubleJumpForce, ForceMode.Impulse);
         }
     }
 
-    void Slip()
+    void Lean()
     {
-        if (isOnGround && Input.GetKeyDown(KeyCode.LeftControl))
+        if (_isOnGround && Input.GetKeyDown(KeyCode.LeftControl))
         {
-            animator.SetBool(IS_SLIP, true);
+            _animator.SetBool(IsLeaning, true);
         }
         
         else
         {
-            animator.SetBool(IS_SLIP, false);
+            _animator.SetBool(IsLeaning, false);
         }
     }
 
     void IncreaseSpeedBySeconds()
     {
-        if (forwardSpeed < maxSpeed)
+        if (_forwardSpeed < _maxSpeed)
         {
-            forwardSpeed += 0.2f * Time.deltaTime;
+            _forwardSpeed += 0.3f * Time.deltaTime;
         }
     }
 
@@ -132,30 +126,21 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            isOnGround = true;
-            doubleJump = false;
+            _isOnGround = true;
+            _canDoubleJump = false;
         }
 
         if (collision.gameObject.CompareTag("Obstacle"))
         {
-            isAlive = false;
-            showHealth--;
-            animator.SetBool(IS_DEAD, true);
+            AudioManager.instance.PlayInDeath();
+            HealthHandler();
+        }
 
-            if (health == 0)
-            {
-                healthText.text = "HEALTH: " + showHealth.ToString();
-                GameManager.Instance.isGameOver = true;
-                GameManager.Instance.GameOver();
-            }
-
-            else if (health > 0)
-            {
-                transform.position = respawnPoint.transform.position;
-                health--;
-                healthText.text = "HEALTH: " + showHealth.ToString();
-                Respawn();
-            }
+        if (collision.gameObject.CompareTag("Rock"))
+        {
+            AudioManager.instance.PlayInDeath();
+            collision.gameObject.SetActive(false);
+            HealthHandler();
         }
     }
     
@@ -164,18 +149,40 @@ public class PlayerMovement : MonoBehaviour
         GameManager.Instance.StartCoroutine(GameManager.Instance.RespawnCounter()); 
     }
 
+    private void HealthHandler()
+    {
+        IsAlive = false;
+        _health--;
+        _animator.SetBool(IsDead, true);
+
+        if (_health == 0)
+        {
+            _healthText.text = "HEALTH: " + 0.ToString();
+            GameManager.Instance.IsGameOver = true;
+            GameManager.Instance.GameOver();
+        }
+
+        else if (_health > 0)
+        {
+            transform.position = _respawnPoint.transform.position;
+            _healthText.text = "HEALTH: " + _health.ToString();
+            Respawn();
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("SilverCoin"))
         {
-            GameManager.Instance.score += 3;
+            AudioManager.instance.PlayPickupCoin();
+            GameManager.Instance.Score += 3;
             other.gameObject.SetActive(false);
         }
 
         if (other.gameObject.CompareTag("GoldCoin"))
         {
-            GameManager.Instance.score += 5;
+            AudioManager.instance.PlayPickupCoin();
+            GameManager.Instance.Score += 5;
             other.gameObject.SetActive(false);
         }
     }

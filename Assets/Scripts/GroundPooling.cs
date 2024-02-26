@@ -3,58 +3,57 @@ using UnityEngine;
 
 public class GroundPooling : MonoBehaviour
 {
-    private Queue<GameObject> pooledGrounds; // creating a queue
-    [SerializeField] private GameObject groundPrefab; // assigning a prefab
-    [SerializeField] private int poolSize = 10; // define the total size
+    private Queue<GameObject> _pooledGrounds; // creating a queue
+    [SerializeField] private GameObject _groundPrefab; // assigning a prefab
+    [SerializeField] private int _poolSize = 30; // define the total size
 
-    private List<GameObject> spawnedGroundTiles = new List<GameObject>();
+    private List<GameObject> _spawnedGroundTiles = new List<GameObject>();
 
-    public int startSize = 2;
+    private int _startSize = 7;
 
     private Vector3 nextSpawnPoint;
 
     // Initializing the objects
     private void Awake()
     {
-        pooledGrounds = new Queue<GameObject>();
+        _pooledGrounds = new Queue<GameObject>();
 
-        for (int i = 0; i < poolSize; i++)
+        for (int i = 0; i < _poolSize; i++)
         {
-            if (groundPrefab != null)
+            if (_groundPrefab != null)
             {
-                GameObject ground = Instantiate(groundPrefab);
+                GameObject ground = Instantiate(_groundPrefab);
                 ground.SetActive(false);
-                pooledGrounds.Enqueue(ground);
+                _pooledGrounds.Enqueue(ground);
             }
         }
     }
 
     private void Start()
     {
-        for (int i = 0; i < startSize; i++)
+        for (int i = 0; i < _startSize; i++)
         {
-            GameObject ground = pooledGrounds.Dequeue();
+            GameObject ground = _pooledGrounds.Dequeue();
             ground.transform.position = nextSpawnPoint;
             nextSpawnPoint = ground.transform.GetChild(1).transform.position;
             ground.SetActive(true);
-            pooledGrounds.Enqueue(ground);
+            _pooledGrounds.Enqueue(ground);
         }
     }
 
-    // Returning the objects when it is needed
     public GameObject GetGroundFromPool()
     {
-        GameObject ground = pooledGrounds.Dequeue();
-        ground.transform.position = nextSpawnPoint; // Update ground position
-        nextSpawnPoint = ground.transform.GetChild(1).transform.position; // Update nextSpawnPoint
+        GameObject ground = _pooledGrounds.Dequeue();
+        ground.transform.position = nextSpawnPoint;
+        nextSpawnPoint = ground.transform.GetChild(1).transform.position;
         ground.SetActive(true);
-        pooledGrounds.Enqueue(ground);
-        spawnedGroundTiles.Add(ground);
+        _pooledGrounds.Enqueue(ground);
+        _spawnedGroundTiles.Add(ground);
         return ground;
     }
 
     public int GetSpawnedTilesCount()
     {
-        return spawnedGroundTiles.Count;
+        return _spawnedGroundTiles.Count;
     }
 }

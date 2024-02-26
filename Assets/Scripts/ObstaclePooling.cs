@@ -10,7 +10,7 @@ public class ObstaclePooling : MonoBehaviour
     {
         public Queue<GameObject> pooledObstacles;
         public GameObject obstaclePrefab;
-        public int poolSize;
+        public int PoolSize;
     }
 
     public Pool[] pools;
@@ -20,7 +20,7 @@ public class ObstaclePooling : MonoBehaviour
         {
             pools[j].pooledObstacles = new Queue<GameObject>();
 
-            for (int i = 0;  i < pools[j].poolSize; i++)
+            for (int i = 0;  i < pools[j].PoolSize; i++)
             {
                 GameObject obstacle = Instantiate(pools[j].obstaclePrefab);
                 obstacle.SetActive(false);

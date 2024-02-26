@@ -10,7 +10,7 @@ public class CoinPooling : MonoBehaviour
     {
         public Queue<GameObject> pooledCoins;
         public GameObject coinPrefab;
-        public int poolSize;
+        public int PoolSize;
     }
 
     public Pool[] pools;
@@ -21,7 +21,7 @@ public class CoinPooling : MonoBehaviour
         {
             pools[j].pooledCoins = new Queue<GameObject>();
 
-            for (int i = 0; i < pools[j].poolSize; i++)
+            for (int i = 0; i < pools[j].PoolSize; i++)
             {
                 GameObject coin = Instantiate(pools[j].coinPrefab);
                 coin.SetActive(false);

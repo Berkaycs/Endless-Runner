@@ -3,13 +3,26 @@ using UnityEngine.SceneManagement;
 
 public class ButtonManager : MonoBehaviour
 {
+    public void PlayGame()
+    {
+        AudioManager.instance.PlayClickButton();
+        SceneManager.LoadScene(1);
+    }
+
     public void QuitGame()
     {
+        AudioManager.instance.PlayClickButton();
         Application.Quit();
     }
 
     public void RestartGame()
     {
-        SceneManager.LoadScene(0);
+        AudioManager.instance.PlayClickButton();
+        SceneManager.LoadScene(1);
+    }
+
+    public void ResetPlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
     }
 }

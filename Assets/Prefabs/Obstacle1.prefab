@@ -32,7 +32,7 @@ Transform:
   - {fileID: 6091629377610754360}
   - {fileID: 7523153258960276543}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &148391237707469589
 PrefabInstance:
@@ -46,11 +46,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cones (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4671836207522484342, guid: 25df1fcbfb38ac74b90fb2a2e3c137da,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7667568636750716714, guid: 25df1fcbfb38ac74b90fb2a2e3c137da,
         type: 3}
@@ -186,11 +181,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Car
       objectReference: {fileID: 0}
-    - target: {fileID: 1926578768978869114, guid: 91ee8f73055309a4797bda4e98565d9d,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -214,11 +204,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cones
-      objectReference: {fileID: 0}
-    - target: {fileID: 4671836207522484342, guid: 25df1fcbfb38ac74b90fb2a2e3c137da,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7667568636750716714, guid: 25df1fcbfb38ac74b90fb2a2e3c137da,
         type: 3}

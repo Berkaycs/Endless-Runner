@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8431009961710183699}
   m_Layer: 0
   m_Name: SM_PolygonPrototype_Buildings_Ramp_45_1x1_01P
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 8098717310926869711}
   m_Layer: 0
   m_Name: Platform
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -157,7 +157,7 @@ GameObject:
   - component: {fileID: 7557670663892323788}
   m_Layer: 0
   m_Name: Window
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -345,9 +345,10 @@ GameObject:
   - component: {fileID: 144311440690199614}
   - component: {fileID: 5567945992344126057}
   - component: {fileID: 1787132372757007415}
+  - component: {fileID: 3541733045050654642}
   m_Layer: 0
   m_Name: Rock
-  m_TagString: Obstacle
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -438,6 +439,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.50131315
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3541733045050654642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4046900911194850520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ca6eb525cb6e1645a752cc34494aa80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5296768122519419347
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,7 +497,7 @@ GameObject:
   - component: {fileID: 4896080603667988814}
   m_Layer: 0
   m_Name: SM_PolygonPrototype_Buildings_Block_1x1_01P
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -620,7 +633,7 @@ GameObject:
   - component: {fileID: 2879903267221531406}
   m_Layer: 0
   m_Name: Window
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -650,7 +663,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3994487234983493810}
-  - component: {fileID: 1275889756853721539}
   m_Layer: 0
   m_Name: Rock
   m_TagString: Untagged
@@ -674,17 +686,3 @@ Transform:
   m_Father: {fileID: 7393626805484858491}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1275889756853721539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9111080963226609229}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ca6eb525cb6e1645a752cc34494aa80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationSpeed: 100
-  movementSpeed: 20

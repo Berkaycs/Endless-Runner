@@ -6,81 +6,95 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    [SerializeField] TextMeshProUGUI scoreText;
-    [SerializeField] TextMeshProUGUI highScoreText;
-    [SerializeField] TextMeshProUGUI countdownText;
-    [SerializeField] GameObject newHighScoreText;
-    [SerializeField] GameObject gameOverPanel;
-    [SerializeField] GameObject countdownPanel;
-    [SerializeField] PlayerMovement player;
-    [SerializeField] Animator animator;
+    private const string IsDead = "IsDead";
+    private const string HighScoreColor = "HighScoreColor";
 
-    public int score;
-    private int highScore;
-    public int respawnCounter = 3;
-    public bool isGameOver = false;
+    [SerializeField] private TextMeshProUGUI _scoreText;
+    [SerializeField] private TextMeshProUGUI _highScoreText;
+    [SerializeField] private TextMeshProUGUI _countdownText;
+    [SerializeField] private GameObject _newHighScoreText;
+    [SerializeField] private GameObject _gameOverPanel;
+    [SerializeField] private GameObject _countdownPanel;
+    [SerializeField] private PlayerMovement _player;
+    [SerializeField] private Animator _animator;
+
+    private int _respawnCounter = 3;
+    private int _highScore;
+    public int Score;
+    public bool IsGameOver = false;
 
     private void Awake()
     {
         Instance = this;
-        gameOverPanel.SetActive(false);
-        countdownPanel.SetActive(false);
+        _gameOverPanel.SetActive(false);
+        _countdownPanel.SetActive(false);
     }
 
     void Start()
     {
-        score = 0;
-        scoreText.text = "SCORE: " + score.ToString();
+        Score = 0;
+        _scoreText.text = "SCORE: " + Score.ToString();
 
-        highScore = PlayerPrefs.GetInt("HighScore", 0);
-        highScoreText.text = "HIGH SCORE: " + highScore.ToString();
+        _highScore = PlayerPrefs.GetInt("HighScore", 0);
+        _highScoreText.text = "HIGH SCORE: " + _highScore.ToString();
+
+        string highScoreColorString = PlayerPrefs.GetString(HighScoreColor, ColorUtility.ToHtmlStringRGB(Color.white));
+        Color highScoreColor;
+        if (ColorUtility.TryParseHtmlString("#" + highScoreColorString, out highScoreColor))
+        {
+            _highScoreText.color = highScoreColor;
+        }
+
         StartCoroutine(IncreaseScore());
     }
 
     IEnumerator IncreaseScore()
     {
-        while (!isGameOver && player.isAlive == true)
+        while (!IsGameOver && _player.IsAlive == true)
         {
-            yield return new WaitForSeconds(1f);
-            score++;
-            scoreText.text = "SCORE: " + score.ToString();
+            yield return new WaitForSeconds(0.2f);
+            Score++;
+            _scoreText.text = "SCORE: " + Score.ToString();
         }
     }
     
     public IEnumerator RespawnCounter()
     {
-        countdownPanel.SetActive(true);
-        player.isAlive = false;
+        _countdownPanel.SetActive(true);
 
-        while (respawnCounter > 0)
+        while (_respawnCounter > 0)
         {
-            countdownText.text = respawnCounter.ToString();
-            respawnCounter--;
+            _countdownText.text = _respawnCounter.ToString();
+            _respawnCounter--;
             yield return new WaitForSeconds(1f);
         }
 
-        countdownPanel.SetActive(false);
-        respawnCounter = 3;
-        player.isAlive = true;
-        animator.SetBool("IsDead", false);
+        _countdownPanel.SetActive(false);
+        _respawnCounter = 3;
+        _player.IsAlive = true;
+        _animator.SetBool(IsDead, false);
+        StartCoroutine(IncreaseScore());
     }
     
     public void GameOver()
     {
-        gameOverPanel.SetActive(true);
+        _gameOverPanel.SetActive(true);
 
-        if (score > highScore)
+        if (Score > _highScore)
         {
-            highScore = score;
-            highScoreText.text = "HIGH SCORE: " + highScore.ToString();
-            highScoreText.color = Random.ColorHSV();
-            PlayerPrefs.SetInt("HighScore", highScore);
-            newHighScoreText.SetActive(true);
+            _highScore = Score + 1;
+            _highScoreText.text = "HIGH SCORE: " + _highScore.ToString();
+            PlayerPrefs.SetInt("HighScore", _highScore);
+
+            _highScoreText.color = Random.ColorHSV();
+            string highScoreColorString = ColorUtility.ToHtmlStringRGB(_highScoreText.color);
+            PlayerPrefs.SetString(HighScoreColor, highScoreColorString);
+            _newHighScoreText.SetActive(true);         
         }
 
         else
         {
-            newHighScoreText.SetActive(false);
+            _newHighScoreText.SetActive(false);
         }
     }
 }
