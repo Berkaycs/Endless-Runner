@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 5309785282925566908}
   - component: {fileID: 6737860277600446003}
   - component: {fileID: 462443541698475875}
+  - component: {fileID: 3883717302098554340}
   m_Layer: 0
   m_Name: SM_PolygonPrototype_Buildings_Ramp_45_1x1_01P
   m_TagString: Untagged
@@ -60,8 +61,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2392496772561388187}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 0.7650757, y: -6.4561415, z: -3.1753688}
-  m_LocalScale: {x: 6.86, y: 6.15, z: 7.4}
+  m_LocalPosition: {x: 0.8750769, y: -6.456764, z: -3.2266545}
+  m_LocalScale: {x: 6.86, y: 6.1, z: 7.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8695614073609981392}
@@ -139,6 +140,27 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 7e4cace35ee41bc41870fd214b6609e2, type: 3}
+--- !u!65 &3883717302098554340
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2392496772561388187}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 0.9981351, z: 3.5657473}
+  m_Center: {x: 0.5, y: 0.49906754, z: -1.7804282}
 --- !u!1 &2790590616490762364
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,7 +204,6 @@ GameObject:
   - component: {fileID: 4560009556740221222}
   - component: {fileID: 8387071560510553878}
   - component: {fileID: 8837486421157081719}
-  - component: {fileID: 8789293594247126175}
   m_Layer: 0
   m_Name: SM_PolygonPrototype_Buildings_Block_1x1_01P
   m_TagString: Untagged
@@ -198,7 +219,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4329619163929970675}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.9849243, y: -6.4561415, z: -3.1589355}
+  m_LocalPosition: {x: -5.9849243, y: -6.4561415, z: -3.23}
   m_LocalScale: {x: 6.86, y: 6.1, z: 26.36}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -255,24 +276,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8789293594247126175
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4329619163929970675}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.0000001, y: 1.0000001, z: 1}
-  m_Center: {x: 0.50000006, y: 0.50000006, z: 0.5}

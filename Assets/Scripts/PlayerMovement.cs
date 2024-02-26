@@ -6,7 +6,6 @@ public class PlayerMovement : MonoBehaviour
 {
     private const string IsLeaning = "IsLeaning";
     private const string IsDead = "IsDead";
-    private const string IsRunning = "IsRunning";
 
     [SerializeField] private TextMeshProUGUI _healthText;
     [SerializeField] private Animator _animator;
@@ -15,12 +14,12 @@ public class PlayerMovement : MonoBehaviour
 
     private float _forwardSpeed = 70;
     private float _sideSpeed = 100;
-    private float _maxSpeed = 125;
+    private float _maxSpeed = 120;
 
     private float _middleRight = 13.5f;
     private float _middleLeft = -13.5f;
 
-    private float _jumpForce = 70;
+    private float _jumpForce = 50;
     private float _doubleJumpForce = 50;
 
     private float _gravityModifier = 2f;
@@ -50,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
-        
+
         IncreaseSpeedBySeconds();
         HandleMovement();
         Jump();
@@ -84,7 +83,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_isOnGround && Input.GetKeyDown(KeyCode.Space))
         {
-            _animator.SetBool(IsRunning, false);
             Debug.Log("First jump");
             _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
             _isOnGround = false;
@@ -93,7 +91,6 @@ public class PlayerMovement : MonoBehaviour
 
         else if (!_isOnGround && _canDoubleJump && Input.GetKeyDown(KeyCode.Space))
         {
-            _animator.SetBool(IsRunning, false);
             _canDoubleJump = false;
             Debug.Log("Second jump");
             _rb.velocity = new Vector3(_rb.velocity.x, 0f, _rb.velocity.z);
