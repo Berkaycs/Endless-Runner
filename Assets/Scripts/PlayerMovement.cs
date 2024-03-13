@@ -38,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        Physics.gravity = new Vector3(0, -30, 0);
         Physics.gravity *= _gravityModifier;
         _health = 3;
         _healthText.text = "HEALTH: " + _health.ToString();
